@@ -1,4 +1,13 @@
 # app.py
+import os
+import ssl  # Add this line
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
 
 import streamlit as st
 import random
@@ -11,8 +20,14 @@ from genai import generate_text, generate_audio, generate_cartoon_image_from_sel
 from utils import analyze_personality, generate_dynamic_life_timeline, generate_instagram_html
 from genai import generate_parallel_letter
 
-# 🪄 Set your OpenAI API Key here
-openai.api_key = "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"
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get API key from environment variable
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Set page configuration
 st.set_page_config(
